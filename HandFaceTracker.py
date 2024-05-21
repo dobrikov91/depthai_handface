@@ -626,7 +626,7 @@ class HandFaceTracker:
         hand.handedness = res["handedness"][hand_idx]
         hand.label = "right" if hand.handedness > 0.5 else "left"
         hand.norm_landmarks = np.array(res['rrn_lms'][hand_idx]).reshape(-1,3)
-        hand.landmarks = (np.array(res["sqn_lms"][hand_idx]) * self.frame_size).reshape(-1,2).astype(np.int)
+        hand.landmarks = (np.array(res["sqn_lms"][hand_idx]) * self.frame_size).reshape(-1,2).astype(int)
 
         # If we added padding to make the image square, we need to remove this padding from landmark coordinates and from rect_points
         if self.pad_h > 0:
@@ -676,7 +676,7 @@ class HandFaceTracker:
             # rrn_z and sqn_z corresponds to 468 basic landmarks
             
             # face.landmarks = 3D landmarks in the original image in pixels
-            lm_xy = (np.array(sqn_xy).reshape(-1,2) * self.frame_size).astype(np.int)
+            lm_xy = (np.array(sqn_xy).reshape(-1,2) * self.frame_size).astype(int)
             lm_zone = {}
             lm_zone["lips"] = lm_xy[468:548]
             lm_zone["left eye"] = lm_xy[548:619]
@@ -693,7 +693,7 @@ class HandFaceTracker:
             left_iris_z = np.mean(lm_z[mpu.Z_REFINEMENT_IDX_MAP['left iris']])
             right_iris_z = np.mean(lm_z[mpu.Z_REFINEMENT_IDX_MAP['right iris']])
             lm_z = np.hstack((lm_z, np.repeat([left_iris_z], 5), np.repeat([right_iris_z], 5))).reshape(-1, 1)
-            face.landmarks = np.hstack((lm_xy, lm_z)).astype(np.int)
+            face.landmarks = np.hstack((lm_xy, lm_z)).astype(int)
 
             # face.norm_landmarks = 3D landmarks inside the rotated rectangle, values in [0..1]
             nlm_xy = np.array(rrn_xy).reshape(-1,2)
@@ -719,7 +719,7 @@ class HandFaceTracker:
             face.norm_landmarks = np.hstack((np.array(rrn_xy).reshape(-1,2), np.array(rrn_z).reshape(-1,1)))
             lm_xy = (np.array(sqn_xy) * self.frame_size).reshape(-1,2)
             lm_z = (np.array(sqn_z) * self.frame_size).reshape(-1, 1)
-            face.landmarks = np.hstack((lm_xy, lm_z)).astype(np.int)
+            face.landmarks = np.hstack((lm_xy, lm_z)).astype(int)
 
         # If we added padding to make the image square, we need to remove this padding from landmark coordinates and from rect_points
         if self.pad_h > 0:

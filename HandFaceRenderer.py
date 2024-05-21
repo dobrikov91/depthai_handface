@@ -84,7 +84,7 @@ class HandFaceRenderer:
             if self.show_hand_rot_rect:
                 cv2.polylines(self.frame, [np.array(hand.rect_points)], True, (219, 152, 52), 2, cv2.LINE_AA)
             if self.show_hand_landmarks:
-                lines = [np.array([hand.landmarks[point] for point in line]).astype(np.int) for line in LINES_HAND]
+                lines = [np.array([hand.landmarks[point] for point in line]).astype(int) for line in LINES_HAND]
                 if self.hand_style == 2:
                     color = (0,255,0) if hand.handedness > 0.5 else (0,0,255)
                 else:
